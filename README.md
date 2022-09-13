@@ -3,5 +3,5 @@
 - garante que a coluna utilizada, existe na base de dados
 - gera objetos java com base no schema do banco de dados. Abaixo alguns recursos que nos fornecem base para tal tarefa:
   - utilizar o jpa como base
-  - migração do flyway como base
+  - migração do flyway como base (ddl, mais indicado)
   - arquivos xml do liquibase
