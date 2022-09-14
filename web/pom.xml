@@ -22,6 +22,11 @@
         <jooq.meta.extensions.hibernate.version>3.15.5</jooq.meta.extensions.hibernate.version>
         <schema.version>1</schema.version>
 
+        <spring.datasource.driverClassName>org.postgresql.Driver</spring.datasource.driverClassName>
+        <spring.datasource.url>jdbc:postgresql://localhost:5432/postgres</spring.datasource.url>
+        <spring.datasource.username>root</spring.datasource.username>
+        <spring.datasource.password>root</spring.datasource.password>
+
         <javax.persistence.api.version>2.2</javax.persistence.api.version>
         <validation.api.version>2.0.1.Final</validation.api.version>
     </properties>
@@ -108,39 +113,95 @@
                         <goals>
                             <goal>generate</goal>
                         </goals>
-                        <configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.17.0.xsd">
+                        <configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.16.0.xsd">
+
+                            <!-- Configure the database connection here -->
+                            <jdbc>
+                                <driver>${spring.datasource.driverClassName}</driver>
+                                <url>${spring.datasource.url}</url>
+                                <user>${spring.datasource.username}</user>
+                                <password>${spring.datasource.password}</password>
+                            </jdbc>
+
                             <generator>
+                                <!-- The default code generator.
+                                     You can override this one, to generate your own code style.
+
+                                Supported generators:
+                                - org.jooq.codegen.JavaGenerator
+                                - org.jooq.codegen.ScalaGenerator
+                                - org.jooq.codegen.KotlinGenerator
+
+                                Defaults to org.jooq.codegen.JavaGenerator -->
+                                <name>org.jooq.codegen.JavaGenerator</name>
+
                                 <database>
-                                    <name>org.jooq.meta.extensions.jpa.JPADatabase</name>
-                                    <properties>
+                                    <!-- The database type. The format here is:
+                                    org.jooq.meta.[database].[database]Database -->
+                                    <name>org.jooq.meta.postgres.PostgresDatabase</name>
 
-                                        <!-- A comma separated list of Java packages, that contain your entities -->
-                                        <property>
-                                            <key>packages</key>
-                                            <value>com.github.fabriciolfj.entities</value>
-                                        </property>
+                                    <!-- The database schema (or in the absence of schema support, in your RDBMS this
+                                    can be the owner, user, database name) to be generated. This cannot be combined with the <schemata/> element.
+                                    If <inputSchema/> is missing then all schemas will be considered. -->
+                                    <inputSchema>public</inputSchema>
 
-                                        <!-- Whether JPA 2.1 AttributeConverters should be auto-mapped to jOOQ Converters.
-                                             Custom <forcedType/> configurations will have a higher priority than these auto-mapped converters.
-                                             This defaults to true. -->
-                                        <property>
-                                            <key>useAttributeConverters</key>
-                                            <value>true</value>
-                                        </property>
+                                    <!-- All elements that are generated from your schema
+                                    (A Java regular expression. Use the pipe to separate several expressions)
+                                    Watch out for case-sensitivity. Depending on your database, this might be important!
+                                    You can create case-insensitive regular expressions using this syntax: (?i:expr).
+                                    Whitespace is ignored and comments are possible. -->
+                                    <includes>.*</includes>
 
-                                        <!-- The default schema for unqualified objects:
+                                    <!-- All elements that are excluded from your schema
+                                    (A Java regular expression. Use the pipe to separate several expressions).
+                                    Excludes match before includes, i.e. excludes have a higher priority. -->
+                                    <excludes>
+                                        flyway_schema_history | akeys | avals | defined | delete.*
+                                        | department_topic_arr | dup | employee_office_arr | exist.*
+                                        | fetchval | get_.* | ghstore.* | gin.* | hs.* | hstore.*
+                                        | isdefined | isexists | make_array | new_salary | populate_record
+                                        | sale_price | slice.* | swap | tconvert | update_msrp | postal_code
+                                        | evaluation_criteria | rate_type | vat_type | .*_master | each
+                                        | skeys | svals | top_three_sales_per_employee | product_of_product_line | .*_jooq
+                                    </excludes>
 
-                                             - public: all unqualified objects are located in the PUBLIC (upper case) schema
-                                             - none: all unqualified objects are located in the default schema (default)
+                                    <!-- Schema version provider -->
+                                    <schemaVersionProvider>SELECT MAX("version") FROM "flyway_schema_history"</schemaVersionProvider>
 
-                                             This configuration can be overridden with the schema mapping feature -->
-                                        <property>
-                                            <key>unqualifiedSchema</key>
-                                            <value>none</value>
-                                        </property>
-                                    </properties>
+                                    <!-- Give enough time to jOOQ to trigger the queries needed for generating sources
+                                    (default is 5 seconds) -->
+                                    <logSlowQueriesAfterSeconds>20</logSlowQueriesAfterSeconds>
                                 </database>
+
+                                <target>
+                                    <!-- The destination package of your generated classes (within the destination directory).
+                                 jOOQ may append the schema name to this package if generating multiple schemas,
+                                    e.g. org.jooq.your.packagename.schema1
+                                    org.jooq.your.packagename.schema2 -->
+                                    <packageName>jooq.generated</packageName>
+
+                                    <!-- The destination directory of your generated classes. Using Maven directory layout here. -->
+                                    <directory>target/generated-sources</directory>
+                                </target>
                             </generator>
+
+                            <!-- A boolean property (or constant) can be specified here to tell the plugin not to do anything -->
+                            <skip>false</skip>
+
+                            <!--Additional Maven-specific flags -->
+                            <!-- ============================== -->
+                            <!-- Instead of providing an inline configuration here, you can specify an external XML configuration file here -->
+                            <!-- <configurationFile>${externalfile}</configurationFile> -->
+
+                            <!-- Alternatively, you can provide several external configuration files. These will be merged by using
+                            Maven's combine.children="append" policy. -->
+                            <!--
+                            <configurationFiles>
+                                <configurationFile>${file1}</configurationFile>
+                                <configurationFile>${file2}</configurationFile>
+                                <configurationFile>...</configurationFile>
+                            </configurationFiles>
+                            -->
                         </configuration>
                     </execution>
                 </executions>

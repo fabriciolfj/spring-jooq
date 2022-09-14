@@ -1,6 +1,8 @@
 package com.github.fabriciolfj.study.repository;
 
+import com.github.fabriciolfj.study.pojo.CustomerAndOrder;
 import com.github.fabriciolfj.study.pojo.Order;
+import jooq.generated.tables.Customer;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
@@ -8,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.jooq.generated.tables.Order.ORDER;
+import static jooq.generated.tables.Order.ORDER;
 
 
 @Repository
@@ -19,8 +21,17 @@ public class OrderRepository {
 
     public List<Order> findOrdersByRequiredDate(final LocalDate start, final LocalDate end) {
         return ctx.selectFrom(ORDER)
-                .where(ORDER.REQUIREDDATE.between(start, end))
+                .where(ORDER.REQUIRED_DATE.between(start, end))
                 .fetchInto(Order.class);
+    }
+
+    public List<CustomerAndOrder> findCustomersAndOrders() {
+        return ctx.select(Customer.CUSTOMER.CUSTOMER_NAME, ORDER.ORDER_DATE)
+                .from(ORDER)
+                .innerJoin(Customer.CUSTOMER)
+                .using(Customer.CUSTOMER.CUSTOMER_NUMBER)
+                .orderBy(ORDER.ORDER_DATE.desc())
+                .fetchInto(CustomerAndOrder.class);
     }
 
 }

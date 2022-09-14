@@ -5,10 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
 import java.util.List;
 
-import static org.jooq.generated.tables.Office.OFFICE;
+import static jooq.generated.Tables.OFFICE;
+
 
 @Repository
 @RequiredArgsConstructor

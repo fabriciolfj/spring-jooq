@@ -11,3 +11,15 @@
 - mapeia para as tabelas em um H2
 - faz a engenharia reversa do schema gerado no h2 (com base nas entidades jpa)
 - cria-se os objetos em java
+
+## Exemplo de uso do jooq
+```
+    public List<CustomerAndOrder> findCustomersAndOrders() {
+        return ctx.select(Customer.CUSTOMER.CUSTOMER_NAME, ORDER.ORDER_DATE)
+                .from(ORDER)
+                .innerJoin(Customer.CUSTOMER)
+                .using(Customer.CUSTOMER.CUSTOMER_NUMBER)
+                .orderBy(ORDER.ORDER_DATE.desc())
+                .fetchInto(CustomerAndOrder.class);
+    }
+```

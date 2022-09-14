@@ -1,5 +1,6 @@
 package com.github.fabriciolfj.study.controller;
 
+import com.github.fabriciolfj.study.pojo.CustomerAndOrder;
 import com.github.fabriciolfj.study.pojo.Order;
 import com.github.fabriciolfj.study.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -20,5 +21,10 @@ public class OrderController {
     @GetMapping("/{start}/{end}")
     public List<Order> findOrdersPeriod(@PathVariable("start") final String start, @PathVariable("end") final String end) {
         return orderService.findOrderBetweenPeriod(LocalDate.parse(start), LocalDate.parse(end));
+    }
+
+    @GetMapping("/customers")
+    public List<CustomerAndOrder> findAllCustomersAndOrders() {
+        return orderService.findCustomersAndOrders();
     }
 }

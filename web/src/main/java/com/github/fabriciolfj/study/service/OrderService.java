@@ -1,5 +1,6 @@
 package com.github.fabriciolfj.study.service;
 
+import com.github.fabriciolfj.study.pojo.CustomerAndOrder;
 import com.github.fabriciolfj.study.pojo.Order;
 import com.github.fabriciolfj.study.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,5 +17,9 @@ public class OrderService {
 
     public List<Order> findOrderBetweenPeriod(final LocalDate start, final LocalDate end) {
         return orderRepository.findOrdersByRequiredDate(start, end);
+    }
+
+    public List<CustomerAndOrder> findCustomersAndOrders() {
+        return orderRepository.findCustomersAndOrders();
     }
 }
