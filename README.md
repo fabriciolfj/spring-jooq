@@ -5,3 +5,9 @@
   - utilizar o jpa como base
   - migração do flyway como base (ddl, mais indicado)
   - arquivos xml do liquibase
+
+## Uso do JPA
+- jooq olha as entidades
+- mapeia para as tabelas em um H2
+- faz a engenharia reversa do schema gerado no h2 (com base nas entidades jpa)
+- cria-se os objetos em java

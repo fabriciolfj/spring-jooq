@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>study</artifactId>
+        <groupId>com.github.fabriciolfj</groupId>
+        <version>1.0</version>
+    </parent>
+
+    <groupId>com.github.fabriciolfj</groupId>
+    <artifactId>web</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>web</name>
+    <description>Demo project for Spring Boot</description>
+
+    <properties>
+        <java.version>17</java.version>
+        <codehaus.mojo.version>1.0.0</codehaus.mojo.version>
+        <jooq.version>3.15.5</jooq.version>
+        <jooq.meta.extensions.hibernate.version>3.15.5</jooq.meta.extensions.hibernate.version>
+        <schema.version>1</schema.version>
+
+        <javax.persistence.api.version>2.2</javax.persistence.api.version>
+        <validation.api.version>2.0.1.Final</validation.api.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>com.github.fabriciolfj</groupId>
+            <artifactId>entities</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jooq</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>${codehaus.mojo.version}</version>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>read-project-properties</goal>
+                        </goals>
+                        <configuration>
+                            <files>
+                                <file>src/main/resources/application.yml</file>
+                            </files>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-codegen-maven</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-jooq-from-jpa-entities</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.17.0.xsd">
+                            <generator>
+                                <database>
+                                    <name>org.jooq.meta.extensions.jpa.JPADatabase</name>
+                                    <properties>
+
+                                        <!-- A comma separated list of Java packages, that contain your entities -->
+                                        <property>
+                                            <key>packages</key>
+                                            <value>com.github.fabriciolfj.entities</value>
+                                        </property>
+
+                                        <!-- Whether JPA 2.1 AttributeConverters should be auto-mapped to jOOQ Converters.
+                                             Custom <forcedType/> configurations will have a higher priority than these auto-mapped converters.
+                                             This defaults to true. -->
+                                        <property>
+                                            <key>useAttributeConverters</key>
+                                            <value>true</value>
+                                        </property>
+
+                                        <!-- The default schema for unqualified objects:
+
+                                             - public: all unqualified objects are located in the PUBLIC (upper case) schema
+                                             - none: all unqualified objects are located in the default schema (default)
+
+                                             This configuration can be overridden with the schema mapping feature -->
+                                        <property>
+                                            <key>unqualifiedSchema</key>
+                                            <value>none</value>
+                                        </property>
+                                    </properties>
+                                </database>
+                            </generator>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <!-- This is needed for the JPADatabase -->
+                    <dependency>
+                        <groupId>org.jooq</groupId>
+                        <!-- before jOOQ 3.14.x <artifactId>jooq-meta-extensions -->
+                        <artifactId>jooq-meta-extensions-hibernate</artifactId>
+                        <version>${jooq.meta.extensions.hibernate.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>javax.persistence</groupId>
+                        <artifactId>javax.persistence-api</artifactId>
+                        <version>${javax.persistence.api.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>javax.validation</groupId>
+                        <artifactId>validation-api</artifactId>
+                        <version>${validation.api.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

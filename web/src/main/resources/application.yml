@@ -1,0 +1,17 @@
+spring:
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        ddl-auto: none
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: root
+    password: root
+  jooq:
+    sql-dialect: POSTGRES
+  flyway:
+    locations: db/migration
+
