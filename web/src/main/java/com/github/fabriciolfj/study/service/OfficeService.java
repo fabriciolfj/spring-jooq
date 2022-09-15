@@ -1,9 +1,12 @@
 package com.github.fabriciolfj.study.service;
 
-import com.github.fabriciolfj.study.pojo.Office;
-import com.github.fabriciolfj.study.repository.OfficeRepository;
+import jooq.generated.tables.Office;
+import jooq.generated.tables.daos.OfficeRepository;
+import jooq.generated.tables.pojos.JooqOffice;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -11,10 +14,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OfficeService {
 
-    private final OfficeRepository repository;
+    private final OfficeRepository officeRepository;
 
-    public List<Office> getOfficeTerritory(final String territory) {
-        return repository.findOfficesInTerritory(territory);
+    @Transactional(readOnly = true)
+    public List<JooqOffice> getOfficeTerritory(final String territory) {
+        return officeRepository.fetchByTerritory(territory);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void addOffice(final JooqOffice office) {
+        officeRepository.insert(office);
     }
 
 }

@@ -38,6 +38,10 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jooq</artifactId>
         </dependency>
         <dependency>
@@ -124,6 +128,12 @@
                             </jdbc>
 
                             <generator>
+                                <generate>
+                                    <pojos>true</pojos>
+                                    <validationAnnotations>true</validationAnnotations>
+                                    <daos>true</daos>
+                                    <springAnnotations>true</springAnnotations>
+                                </generate>
                                 <!-- The default code generator.
                                      You can override this one, to generate your own code style.
 
@@ -183,6 +193,23 @@
                                     <!-- The destination directory of your generated classes. Using Maven directory layout here. -->
                                     <directory>target/generated-sources</directory>
                                 </target>
+
+                                <strategy>
+                                    <matchers>
+                                        <tables>
+                                            <table>
+                                                <pojoClass>
+                                                    <expression>JOOQ_$0</expression>
+                                                    <transform>PASCAL</transform>
+                                                </pojoClass>
+                                                <daoClass>
+                                                    <expression>$0_Repository</expression>
+                                                    <transform>PASCAL</transform>
+                                                </daoClass>
+                                            </table>
+                                        </tables>
+                                    </matchers>
+                                </strategy>
                             </generator>
 
                             <!-- A boolean property (or constant) can be specified here to tell the plugin not to do anything -->

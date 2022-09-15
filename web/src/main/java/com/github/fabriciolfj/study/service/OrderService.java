@@ -1,8 +1,9 @@
 package com.github.fabriciolfj.study.service;
 
-import com.github.fabriciolfj.study.pojo.CustomerAndOrder;
 import com.github.fabriciolfj.study.pojo.Order;
-import com.github.fabriciolfj.study.repository.OrderRepository;
+import com.github.fabriciolfj.study.repository.OrderOldRepository;
+import jooq.generated.tables.daos.OrderRepository;
+import jooq.generated.tables.pojos.JooqOrder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +15,13 @@ import java.util.List;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderOldRepository orderOldRepository;
 
-    public List<Order> findOrderBetweenPeriod(final LocalDate start, final LocalDate end) {
-        return orderRepository.findOrdersByRequiredDate(start, end);
+    public List<JooqOrder> findOrderBetweenPeriod(final LocalDate start, final LocalDate end) {
+        return orderRepository.fetchRangeOfRequiredDate(start, end);
     }
 
-    public List<CustomerAndOrder> findCustomersAndOrders() {
-        return orderRepository.findCustomersAndOrders();
+    public List<jooq.generated.tables.pojos.JooqOrder> findCustomersAndOrders() {
+        return orderOldRepository.findCustomersAndOrders();
     }
 }

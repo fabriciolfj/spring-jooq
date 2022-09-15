@@ -3,6 +3,7 @@ package com.github.fabriciolfj.study.controller;
 import com.github.fabriciolfj.study.pojo.CustomerAndOrder;
 import com.github.fabriciolfj.study.pojo.Order;
 import com.github.fabriciolfj.study.service.OrderService;
+import jooq.generated.tables.pojos.JooqOrder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +20,12 @@ public class OrderController {
 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @GetMapping("/{start}/{end}")
-    public List<Order> findOrdersPeriod(@PathVariable("start") final String start, @PathVariable("end") final String end) {
+    public List<JooqOrder> findOrdersPeriod(@PathVariable("start") final String start, @PathVariable("end") final String end) {
         return orderService.findOrderBetweenPeriod(LocalDate.parse(start), LocalDate.parse(end));
     }
 
     @GetMapping("/customers")
-    public List<CustomerAndOrder> findAllCustomersAndOrders() {
+    public List<jooq.generated.tables.pojos.JooqOrder> findAllCustomersAndOrders() {
         return orderService.findCustomersAndOrders();
     }
 }
