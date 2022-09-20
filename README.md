@@ -23,3 +23,10 @@
                 .fetchInto(CustomerAndOrder.class);
     }
 ```
+
+## Consulta segura
+- ao executar uma query podemos esperar uma lista de records e neste passar os tipos das colunas esperadas
+```
+final Result<Record3<String, String, BigDecimal>> result =context.select(Customer.CUSTOMER.CUSTOMER_NAME, Customerdetail.CUSTOMERDETAIL.CITY, Customer.CUSTOMER.CREDIT_LIMIT)
+```
+- joopq consegui acessar o tipo até o record22, acima disso torna-se inseguro, ou seja, vir um tipo não esperado,
