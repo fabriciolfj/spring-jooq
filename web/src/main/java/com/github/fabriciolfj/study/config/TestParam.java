@@ -9,8 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
-import static org.jooq.impl.DSL.concat;
-import static org.jooq.impl.DSL.val;
+import static jooq.generated.Tables.EMPLOYEE;
+import static org.jooq.impl.DSL.*;
+import static org.jooq.impl.DSL.param;
 
 @Configuration
 public class TestParam implements CommandLineRunner {
@@ -25,6 +26,17 @@ public class TestParam implements CommandLineRunner {
         //testThree();
         //testSqlNative(5000, "Sales Rep");
         //testExtractParam(5000, "Sales Rep");
+        //testRenderNameParams();
+    }
+
+    public void testRenderNameParams() {
+        String sql = ctx.renderNamedParams(ctx.select(EMPLOYEE.FIRST_NAME, EMPLOYEE.LAST_NAME)
+                .from(EMPLOYEE)
+                .where(EMPLOYEE.SALARY.gt(param("employeeSalary", 5000))
+                        .and(EMPLOYEE.JOB_TITLE.eq(param("employeeJobTitle", "Sales Rep"))))
+        );
+
+        System.out.println("SQL (renderNamedParams):\n" + sql);
     }
 
     public void testExtractParam(int salary, String job) {
