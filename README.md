@@ -30,3 +30,25 @@
 final Result<Record3<String, String, BigDecimal>> result =context.select(Customer.CUSTOMER.CUSTOMER_NAME, Customerdetail.CUSTOMERDETAIL.CITY, Customer.CUSTOMER.CREDIT_LIMIT)
 ```
 - joopq consegui acessar o tipo até o record22, acima disso torna-se inseguro, ou seja, vir um tipo não esperado,
+
+## Cast e Coerce
+
+### Cast
+- Na consulta podemos utilizar a expressão cast, seja nas colunas esperadas no resultado ou nas condições
+- essa expressão modifica o sql gerado.
+
+### Coerce
+- da mesma forma que o cast, podemos utiliza a coerção nas colunas esperadas no resultado ou nas condições
+- essa expressão não modifica o sql gerado
+
+### Qual utilizar?
+- o mais indicado é o coerce, mas dependendo da situação, o uso de um ou de outro, podem gerar resultados diferentes.
+
+## Operador val
+- utilizamos quando o valor de comparação está a esquerda do campo
+- quando se requer um tipo de campo para um dos parâmetros
+- uso de parâmetros do usuario no meio do resultado da consulta
+
+## Operador inline
+- transforma o valor passado (inline("1")) em dado simples, diretamente na consulta sql como parâmetro (sem uso do ? para ser substituido depois)
+- indicado para constantes

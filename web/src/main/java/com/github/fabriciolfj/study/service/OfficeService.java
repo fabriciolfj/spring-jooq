@@ -1,6 +1,5 @@
 package com.github.fabriciolfj.study.service;
 
-import jooq.generated.tables.Office;
 import jooq.generated.tables.daos.OfficeRepository;
 import jooq.generated.tables.pojos.JooqOffice;
 import lombok.RequiredArgsConstructor;

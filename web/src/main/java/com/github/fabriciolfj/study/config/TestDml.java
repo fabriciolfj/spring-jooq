@@ -18,7 +18,7 @@ public class TestDml implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         //delete();
-        select();
+        //select();
     }
 
     //posso utilizar query nativas
