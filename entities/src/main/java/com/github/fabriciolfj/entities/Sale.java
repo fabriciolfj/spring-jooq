@@ -25,7 +25,7 @@ public class Sale implements Serializable {
     @Column(precision = 10, scale = 2, nullable=false)
     private Float sale;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "employee_number")
     private Employee employee;
 
