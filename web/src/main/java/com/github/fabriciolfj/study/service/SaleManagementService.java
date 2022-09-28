@@ -5,6 +5,7 @@ import com.github.fabriciolfj.study.repository.SaleJpaRepository;
 import jooq.generated.tables.daos.SaleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,6 +17,7 @@ public class SaleManagementService {
     private final SaleJpaRepository saleJpaRepository;
     private final SaleRepository saleRepository;
 
+    @Transactional(readOnly = true)
     public List<SaleDTO> fetchSaleByFiscalYear(int year) {
         return saleRepository.fetchByFiscalYear(year)
                 .stream()
