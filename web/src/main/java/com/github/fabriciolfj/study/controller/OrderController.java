@@ -28,4 +28,9 @@ public class OrderController {
     public List<jooq.generated.tables.pojos.JooqOrder> findAllCustomersAndOrders() {
         return orderService.findCustomersAndOrders();
     }
+
+    @GetMapping
+    public void useColumnsExcept() {
+        orderService.queryExcept();
+    }
 }

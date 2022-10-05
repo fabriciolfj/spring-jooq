@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static jooq.generated.tables.Order.ORDER;
+import static org.jooq.impl.DSL.asterisk;
 
 
 @Repository
@@ -31,6 +32,14 @@ public class OrderOldRepository {
                 .using(Customer.CUSTOMER.CUSTOMER_NUMBER)
                 .orderBy(ORDER.ORDER_DATE.desc())
                 .fetchInto(jooq.generated.tables.pojos.JooqOrder.class);
+    }
+
+    public void listColumnsExcept() {
+        var result = ctx.select(asterisk().except(ORDER.COMMENTS, ORDER.STATUS))
+                .from(ORDER)
+                .where(ORDER.ORDER_ID.eq(10101L)).fetch();
+
+        result.forEach(s -> System.out.println(s.get(ORDER.CUSTOMER_NUMBER) + " " + s.get(ORDER.ORDER_DATE)));
     }
 
 }

@@ -1,6 +1,5 @@
 package com.github.fabriciolfj.study.service;
 
-import com.github.fabriciolfj.study.pojo.Order;
 import com.github.fabriciolfj.study.repository.OrderOldRepository;
 import jooq.generated.tables.daos.OrderRepository;
 import jooq.generated.tables.pojos.JooqOrder;
@@ -23,5 +22,9 @@ public class OrderService {
 
     public List<jooq.generated.tables.pojos.JooqOrder> findCustomersAndOrders() {
         return orderOldRepository.findCustomersAndOrders();
+    }
+
+    public void queryExcept() {
+        orderOldRepository.listColumnsExcept();
     }
 }

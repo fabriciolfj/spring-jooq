@@ -74,3 +74,6 @@ final Result<Record3<String, String, BigDecimal>> result =context.select(Custome
 ## Operador inline
 - transforma o valor passado (inline("1")) em dado simples, diretamente na consulta sql como parâmetro (sem uso do ? para ser substituido depois)
 - indicado para constantes
+
+## Operador field
+- para garantir o tipo a ser inserido, utilize o operador field e não o asField na clausura insert.

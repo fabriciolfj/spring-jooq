@@ -39,4 +39,14 @@ public class SaleController {
                 .map(SaleMapper::toDTO)
                 .collect(Collectors.toList());
     }
+
+    @GetMapping("/saleCondition")
+    public void columnCondition() {
+        service.queryConditionColumn();
+    }
+
+    @GetMapping("/subquery")
+    public void testSubquery() {
+        service.subqueryExample();
+    }
 }
