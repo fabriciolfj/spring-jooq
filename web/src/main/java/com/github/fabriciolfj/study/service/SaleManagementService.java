@@ -81,7 +81,8 @@ public class SaleManagementService {
     }
 
     public void queryConditionColumn() {
-        var result = context.select(field(Sale.SALE.SALE_.gt(5000.0))
+        var result = context.select(
+                when(Sale.SALE.SALE_.gt(5000.0), "alto").otherwise("baixo")
                 .as("saleGT5000"), Sale.SALE.asterisk().except(Sale.SALE.SALE_))
                 .from(Sale.SALE)
                 .orderBy(Sale.SALE.SALE_ID.desc())
