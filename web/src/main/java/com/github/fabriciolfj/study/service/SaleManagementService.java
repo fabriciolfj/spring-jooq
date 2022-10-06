@@ -60,8 +60,8 @@ public class SaleManagementService {
                         fieldSen
                 )
                 .from(SALE, saleTable)
-                .where(Sale.SALE.EMPLOYEE_NUMBER.eq(fieldSen)
-                        .and(Sale.SALE.SALE_.lessThan(fieldAvg)))
+                .where(Sale.SALE.EMPLOYEE_NUMBER.eq(saleTable.field(fieldSen))
+                        .and(Sale.SALE.SALE_.lessThan(saleTable.field(fieldAvg))))
                 .fetch();
 
         result.forEach(s -> System.out.println(s.get(Sale.SALE.SALE_ID) + " " + s.get(SALE.SALE_) + " " + s.get(fieldSen)));
