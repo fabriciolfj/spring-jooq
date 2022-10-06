@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -40,6 +41,19 @@ public class OrderOldRepository {
                 .where(ORDER.ORDER_ID.eq(10101L)).fetch();
 
         result.forEach(s -> System.out.println(s.get(ORDER.CUSTOMER_NUMBER) + " " + s.get(ORDER.ORDER_DATE)));
+    }
+
+    public void testInsert() {
+        var result = ctx.insertInto(ORDER,
+                ORDER.COMMENTS, ORDER.ORDER_DATE, ORDER.REQUIRED_DATE,
+                ORDER.SHIPPED_DATE, ORDER.STATUS, ORDER.CUSTOMER_NUMBER, ORDER.AMOUNT)
+                .values(
+                        "new order inserted", LocalDate.of(2022, 1, 12),
+                        LocalDate.of(2022, 1, 12), LocalDate.of(2022, 1, 12),
+                        "shipped", 363L, BigDecimal.valueOf(300.33)
+                ).execute();
+
+        System.out.println("Total inserido : " + result);
     }
 
 }

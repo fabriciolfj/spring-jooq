@@ -77,3 +77,20 @@ final Result<Record3<String, String, BigDecimal>> result =context.select(Custome
 
 ## Operador field
 - para garantir o tipo a ser inserido, utilize o operador field e não o asField na clausura insert.
+
+## Insert
+ - podemos passar o insert comum, especificando as colunas e valores
+ - passar um Record correspondente a tabela, conforme o exemplo abaixo:
+```
+        final SaleRecord sr = new SaleRecord();
+        sr.setFiscalYear(2022);
+        sr.setFiscalMonth(3);
+        sr.setEmployeeNumber(1370L);
+        sr.setSale(3422.00);
+        sr.setEmployeeNumber(1370L);
+        sr.setRevenueGrowth(14.55);
+
+        /*ctx.insertInto(Sale.SALE)
+                .values(sr.valuesRow().fields()).execute();*/
+        context.executeInsert(sr);
+```

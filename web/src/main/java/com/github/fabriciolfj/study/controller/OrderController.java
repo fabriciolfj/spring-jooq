@@ -33,4 +33,9 @@ public class OrderController {
     public void useColumnsExcept() {
         orderService.queryExcept();
     }
+
+    @PostMapping
+    public void testInsert() {
+        orderService.testInsert();
+    }
 }

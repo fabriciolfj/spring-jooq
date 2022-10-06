@@ -5,10 +5,7 @@ import com.github.fabriciolfj.study.controller.dto.SaleDTO;
 import com.github.fabriciolfj.study.controller.mapper.SaleMapper;
 import com.github.fabriciolfj.study.service.SaleManagementService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,5 +45,10 @@ public class SaleController {
     @GetMapping("/subquery")
     public void testSubquery() {
         service.subqueryExample();
+    }
+
+    @PostMapping
+    public void testInsert() {
+        service.testInsert();
     }
 }

@@ -4,6 +4,7 @@ import com.github.fabriciolfj.study.controller.dto.SaleDTO;
 import com.github.fabriciolfj.study.repository.SaleRepository;
 import jooq.generated.tables.Employee;
 import jooq.generated.tables.Sale;
+import jooq.generated.tables.records.SaleRecord;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;

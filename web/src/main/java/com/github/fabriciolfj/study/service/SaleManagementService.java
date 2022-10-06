@@ -5,10 +5,12 @@ import com.github.fabriciolfj.study.repository.SaleJpaRepository;
 import jooq.generated.tables.Order;
 import jooq.generated.tables.Sale;
 import jooq.generated.tables.daos.SaleRepository;
+import jooq.generated.tables.records.SaleRecord;
 import lombok.RequiredArgsConstructor;
 import org.jooq.Comparator;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -24,6 +26,21 @@ public class SaleManagementService {
     private final SaleJpaRepository saleJpaRepository;
     private final SaleRepository saleRepository;
     private final DSLContext context;
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void testInsert() {
+        final SaleRecord sr = new SaleRecord();
+        sr.setFiscalYear(2022);
+        sr.setFiscalMonth(3);
+        sr.setEmployeeNumber(1370L);
+        sr.setSale(3422.00);
+        sr.setEmployeeNumber(1370L);
+        sr.setRevenueGrowth(14.55);
+
+        /*ctx.insertInto(Sale.SALE)
+                .values(sr.valuesRow().fields()).execute();*/
+        context.executeInsert(sr);
+    }
 
     public void subqueryExample() {
         var fieldAvg = avg(Sale.SALE.SALE_).coerce(Double.class).as("avgs");

@@ -27,4 +27,14 @@ public class OfficeController {
     public void create(@RequestBody final JooqOffice office) {
         officeService.addOffice(office);
     }
+
+    @GetMapping("/row")
+    public void testRow() {
+        officeService.testOperatorRow();
+    }
+
+    @GetMapping("/distinct")
+    public void testDistinct() {
+        officeService.testDistinct();
+    }
 }
