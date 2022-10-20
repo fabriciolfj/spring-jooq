@@ -39,7 +39,20 @@ public class SaleManagementService {
 
         /*ctx.insertInto(Sale.SALE)
                 .values(sr.valuesRow().fields()).execute();*/
-        context.executeInsert(sr);
+
+        //pegando o resultado do insert
+        var result = context.insertInto(SALE)
+                .set(SALE.FISCAL_YEAR, 2022)
+                .set(SALE.SALE_, 400.00)
+                .set(SALE.EMPLOYEE_NUMBER, 1370L)
+                .set(SALE.REVENUE_GROWTH, 1.33)
+                .returningResult(SALE.SALE_ID)
+                .fetchOne();
+
+        System.out.println(result);
+
+        //usando o record
+        //context.executeInsert(sr);
     }
 
     public void subqueryExample() {
@@ -125,4 +138,6 @@ public class SaleManagementService {
     public List<com.github.fabriciolfj.entities.Sale> findBy10() {
         return saleJpaRepository.findTop10By();
     }
+
+
 }

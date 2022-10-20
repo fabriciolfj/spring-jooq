@@ -94,3 +94,23 @@ final Result<Record3<String, String, BigDecimal>> result =context.select(Custome
                 .values(sr.valuesRow().fields()).execute();*/
         context.executeInsert(sr);
 ```
+## Inserindo resultado do insert anterior ao novo
+- podemos utilizar a clausura returningResult do insert, para pegar algum resultado e utilizar em um próximo
+- no exemplo abaixo, pegamos o id gerado na base na tabela CUSTOMER e utilizamos no insert na tabela CUSTOMERDETAILS
+```
+        System.out.println("EXAMPLE 3 (affected rows): "
+                + ctx.insertInto(CUSTOMERDETAIL)
+                        .values(ctx.insertInto(CUSTOMER)
+                                .values(default_(),
+                                        UUID.randomUUID().toString(), // random customer_name
+                                        "Kyle", "Doyle", "+ 44 321 321", 
+                                        default_(), default_(), default_())
+                                .returningResult(CUSTOMER.CUSTOMER_NUMBER).fetchOne().value1(),
+                                UUID.randomUUID().toString(), // random address_line_first
+                                default_(), "Los Angeles", default_(), default_(), "USA")
+                        .execute()
+        );
+```
+
+## Inserindo valores default
+- para valores default ja parametrizados na tabela, podemos omitir passa defaultValue() ou passar o nome da coluna defaultValue(COLUNA)
